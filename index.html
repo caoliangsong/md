@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>mdwriter online</title>
+	<script src="//cdn.bootcss.com/vue/2.2.1/vue.min.js"></script>
+	<script src="md.js"></script>
+	<link rel="stylesheet" href="css.css">
+</head>
+<body>
+	<div id="editor">
+	  <textarea :value="input" @input="update"></textarea>
+	  <div v-html="compiledMarkdown"></div>
+	</div>
+	<script>
+		(function() {
+			// body...
+			new Vue({
+			  el: '#editor',
+			  data: {
+			    input: '# hello markdown',
+			    timer: null
+			  },
+			  computed: {
+			    compiledMarkdown: function () {
+			      return Markdown.toHTML(this.input)
+			    }
+			  },
+			  methods: {
+			    update: function (e) {
+			    	var self = this;
+			    	clearTimeout(this.timer);
+			    	this.timer =  setTimeout(function(){
+			    		self.input = e.target.value;
+			    	},300);
+			    }
+			  }
+			}) 
+		})()
+	</script>
+</body>
+</html>
